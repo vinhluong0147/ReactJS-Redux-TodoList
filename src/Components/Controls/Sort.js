@@ -8,21 +8,12 @@ class Sort extends Component {
         }
     }
 
-    onChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        }, () => {
-            this.props.onSortList(this.state.sortType)
-        })
-    }
-    
     render() {
         return (
             <div className="form-group text-left">
                 <label>Sắp xếp theo công việc</label>
                 <select className="form-control" 
-                name="sortType"
-                onChange={this.onChange}>
+                name="sortType">
                     <option value="asc">Từ A đến Z</option>
                     <option value="desc">Từ Z đến A</option>
                 </select>

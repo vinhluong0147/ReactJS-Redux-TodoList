@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 
 class FilterLabel extends Component {
 
-    handleFilter = (filterLabel) => {
-        this.props.changeFilterLabel(filterLabel)
-    }
+
     render() {
         return (
             <div className="filter filter--label">
                 <ul className="list-unstyled text-left" >Nhãn
-                <li className="py-1 display-5 lead" onClick={this.handleFilter.bind(this, 'Tất cả')}>
+                <li className="py-1 display-5 lead" >
                         <i className="fa fa-circle mr-2" />Tất cả
                     </li>
-                    <li className="py-1 display-5 lead" onClick={this.handleFilter.bind(this, 'Frontend')}>
+                    <li className="py-1 display-5 lead" >
                         <i className="fa fa-circle mr-2" />Frontend
                     </li>
-                    <li className="py-1 display-5 lead" onClick={this.handleFilter.bind(this, 'Backend')}>
+                    <li className="py-1 display-5 lead" >
                         <i className="fa fa-circle mr-2"  />Backend
                     </li>
-                    <li className="py-1 display-5 lead" onClick={this.handleFilter.bind(this, 'API')} >
+                    <li className="py-1 display-5 lead" >
                         <i className="fa fa-circle mr-2" />API
                     </li>
-                    <li className="py-1 display-5 lead" onClick={this.handleFilter.bind(this, 'Database')}>
+                    <li className="py-1 display-5 lead" >
                         <i className="fa fa-circle mr-2"  />Database
                     </li>
                 </ul>

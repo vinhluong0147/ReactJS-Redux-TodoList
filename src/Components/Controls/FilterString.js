@@ -8,18 +8,10 @@ class FilterString extends Component {
         }
     }
     
-    onChange = (event) =>{
-        this.setState({
-            [event.target.name]: event.target.value
-            
-        }, () => {
-            this.props.changeFilterSearch(this.state.filterSearch)
-        })
-    }
     render() {
         return (
             <div className="form-group text-left my-0">
-                <input type="text" className="form-control" placeholder="Tìm kiếm công việc" name="filterSearch" onChange={this.onChange} />
+                <input type="text" className="form-control" placeholder="Tìm kiếm công việc" name="filterSearch"  />
             </div>
         );
     }
