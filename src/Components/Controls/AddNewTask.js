@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-
+import {connect} from 'react-redux'
+import * as actions from '../../Actions/index'
 class AddNewTask extends Component {
+
+    handleAddNewTask = () => {
+        this.props.convertTitleAdd();
+        this.props.clearForm()
+    }
+  
     render() {
         return (
             <button 
@@ -8,7 +15,7 @@ class AddNewTask extends Component {
                 className="btn my-3 btn--newTask" 
                 data-toggle="modal" 
                 data-target="#modalTask"
-                onClick={this.props.convertEditToAdd}
+                onClick={this.handleAddNewTask}
             >
                 <i className="fa fa-pencil-square-o" />
                 Tạo Task mới
@@ -17,4 +24,16 @@ class AddNewTask extends Component {
     }
 }
 
-export default AddNewTask;
+
+function mapDispatchToProps(dispatch) {
+    return {
+        convertTitleAdd: () => {
+            dispatch(actions.convertTitleAdd())
+        },
+        clearForm: () => {
+            dispatch(actions.clearForm())
+        }
+    }
+
+}
+export default connect(null, mapDispatchToProps)(AddNewTask);

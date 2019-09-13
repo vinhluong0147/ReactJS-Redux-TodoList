@@ -5,39 +5,49 @@
 const TasksData = [
     {
         id: new Date().getTime() + 1,
-        name: "Soạn ReactJS",
+        name: "Học HTML",
         labelArr: ["Frontend", "Backend"],
         priority: 1, 
         memberIDArr: ["user_2"],
         status: 2, 
-        description: "Phải soạn ReactJS kèm với NodeJS và Redux"
+        description: "Học HTML"
     },
     {
         id: new Date().getTime() + 2,
-        name: "Dạy AngularJS",
+        name: "Học CSS",
         labelArr: ["Frontend", "API"],
         priority: 2, 
         memberIDArr: ["user_4", "user_5"],
         status: 1,
-        description: "Nội dung của Angular rất dài và khó"
+        description: "Học CSS"
     },
     {
         id: new Date().getTime() + 3,
-        name: "Soạn Python",
+        name: "Học Javascript",
         labelArr: ["Backend"],
         priority: 2, 
         memberIDArr: ["user_3", "user_5"],
         status: 1,
-        description: "Soạn python phải tập trung vào game và giải quyết vấn đề"
+        description: "Học Javascript"
     },
     {
         id: new Date().getTime() + 4,
-        name: "Thi Hackathon",
-        labelArr: ["Frontend", "Backend", "Issue"],
+        name: "Học Angular",
+        labelArr: ["Frontend", "Backend", "Database"],
         priority: 3, 
         memberIDArr: ["user_2", "user_3", "user_4", "user_5"],
         status: 3,
-        description: "Cuộc thi đòi hỏi tư duy và kỹ năng coding"
+        description: "Học Angular"
+    },
+
+    {
+        id: new Date().getTime() + 5,
+        name: "Học Reactjs",
+        labelArr: ["Database"],
+        priority: 3, 
+        memberIDArr: ["user_2", "user_3", "user_4", "user_5"],
+        status: 1,
+        description: "Học Reactjs"
     },
 ]
 

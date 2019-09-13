@@ -1,23 +1,43 @@
 import React, { Component } from 'react';
-
+import { connect} from 'react-redux'
 // import components
 import FilterString from '../Controls/FilterString';
 import TaskItem from './TaskItem';
 
 class TaskList extends Component {
+
+  
     render() {
-      let taskItemElm;
-      if(this.props.data){
-        taskItemElm = this.props.data.map((item, index) => {
-          return <TaskItem 
-            key={index} // key không phải props =
-            item={item}
-            index={index}
-            getTask={this.props.getTask}
-            convertAddToEdit={this.props.convertAddToEdit}
-          />
-        })
+      let {tasks} = this.props
+      let filterTask = [];
+        switch(this.props.filter.filterType){
+          case 'status':
+          if(parseInt(this.props.filter.filterValue, 10) === -1){
+            filterTask = tasks
+          }else{
+            for(let task of tasks){
+              if(task.status === parseInt(this.props.filter.filterValue, 10)){
+                filterTask = [...filterTask, task]
+              }
+            } 
+          }
+
+          break;
+
+          case '':
+          filterTask = tasks
+          break;
+          default:
+          break;
+         
       }
+      let elmItem = filterTask.map((task, index) => {
+        return <TaskItem 
+        key={index} 
+        task={task} 
+        index={index} 
+        />
+      })
       
         return (
             <div className="col-md-9 px-0">
@@ -39,6 +59,7 @@ class TaskList extends Component {
                   <table className="table table-hover">
                     <thead>
                       <tr>
+                      
                         <th className="text-center">STT</th>
                         <th className="text-center">Công việc</th>
                         <th className="text-center">Nhãn</th>
@@ -46,12 +67,11 @@ class TaskList extends Component {
                         <th className="text-center">Người thực hiện</th>
                         <th className="text-center">Xử lý</th>
                         <th className="text-center">Tình trạng</th>
+                        <th className="text-center">Xóa</th>
                       </tr>
                     </thead>
                     <tbody>
-
-                      {taskItemElm}
-                      
+                      {elmItem }                      
                     </tbody>
                   </table>
                 </div>
@@ -60,4 +80,10 @@ class TaskList extends Component {
     }
 }
 
-export default TaskList;
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks,
+    filter: state.filter
+  }
+}
+export default connect(mapStateToProps, null)(TaskList);

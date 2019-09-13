@@ -1,92 +1,97 @@
 import React, { Component } from 'react';
 import { Checkbox, CheckboxGroup } from 'react-checkbox-group';
-
+import { connect } from 'react-redux'
+import * as actions from '../../Actions/index'
 class Modal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: null,
+      id: '',
+    name: '',
+    description: '',
+    priority: '',
+    memberIDArr: [],
+    labelArr: [],
+    status: ''
+    }
+  }
+
+  onChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+  
+  onSubmit = (event) => {
+    event.preventDefault()
+    this.setState({
+      id: new Date().getTime() + 1
+    })
+    if(this.props.convertTitle) {
+      this.props.addTask(this.state)
+    }else{
+      this.props.updateTask(this.state) 
+    }
+    
+     
+    
+  }
+
+  memberChanged = (member) => {
+    this.setState({
+      memberIDArr: member
+    })
+  }
+
+  labelChanged = (label) => {
+    this.setState({
+      labelArr: label
+    })
+  }
+
+  componentWillReceiveProps = (nextprops) => {
+    if(nextprops && nextprops.editTask){
+      let{id,name,labelArr,priority,memberIDArr,status,description} = nextprops.editTask
+      this.setState({
+        id,
+        name,
+        description,
+        priority,
+        memberIDArr,
+        labelArr,
+        status
+      })
+    }
+    
+  }
+
+  clearForm = () => {
+    this.setState({
+      id: '',
       name: '',
       description: '',
       priority: '',
       memberIDArr: [],
-      labelArr: [],
-      status: 1
-    }
-  }
-
-  onSubmit = (e) => {
-    e.preventDefault();
-
-    if(this.props.isAddNewTask){
-      this.setState({
-        id: new Date().getTime()
-      }, () => {
-        this.props.addTask(this.state);
-      })
-    } else {
-      this.props.editTask(this.state)
-    }
-    
-    
-  }
-
-  onChange = (e) => {
-    this.setState({
-      // name: e.target.value,
-      // description: e.target.value
-      // computed ES6
-      [e.target.name]: e.target.value
+      labelArr: []
     })
   }
-
-  membersChange = (newMembers) => {
-    this.setState({
-      memberIDArr: newMembers
-    });
-  }
-
-  labelsChange = (newLabels) => {
-    this.setState({
-      labelArr: newLabels
-    });
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    if(nextProps.isAddNewTask){
-      this.setState({
-        id: null,
-        name: '',
-        description: '',
-        priority: '',
-        memberIDArr: [],
-        labelArr: [],
-        status: 1
-      })
-    } else if(nextProps.task){
-      const {id, name, description, priority, memberIDArr, labelArr, status} = nextProps.task
-      this.setState({
-        // destructuring es6
-        id, name, description, priority, memberIDArr, labelArr, status
-      })
-    }
-  }
-
   render() {
-    const {isAddNewTask} = this.props;
-    console.log(isAddNewTask)
+
     return (
       <div className="modal fade" id="modalTask">
         <div className="modal-dialog modal-lg">
-          <form onSubmit={this.onSubmit} >
+          <form onSubmit={this.onSubmit}>
             <div className="modal-content">
+
+
               {/* Modal Header */}
               <div className="modal-header">
                 <h4 className="modal-title">
-                  {isAddNewTask ? 'Thêm task' : 'Sửa task'}
+                {this.props.convertTitle ? 'Thêm task' : 'Sửa task'}
                 </h4>
                 <button type="button" className="close" data-dismiss="modal">×</button>
               </div>
+
               {/* Modal body */}
               <div className="modal-body">
                 <div className="form-group">
@@ -94,10 +99,9 @@ class Modal extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    id="name"
-                    onChange={this.onChange}
                     name="name"
                     value={this.state.name}
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className="form-group">
@@ -106,9 +110,9 @@ class Modal extends Component {
                     className="form-control"
                     rows={2}
                     id="description"
-                    onChange={this.onChange}
                     name="description"
                     value={this.state.description}
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className="form-group">
@@ -117,8 +121,8 @@ class Modal extends Component {
                     className="form-control"
                     id="priority"
                     name="priority"
-                    onChange={this.onChange}
                     value={this.state.priority}
+                    onChange={this.onChange}
                   >
                     <option value={-1} >Chọn độ ưu tiên</option>
                     <option value={3}>Thấp</option>
@@ -133,12 +137,14 @@ class Modal extends Component {
                   checkboxDepth={2} // This is needed to optimize the checkbox group
                   name="memberIDArr"
                   value={this.state.memberIDArr}
-                  onChange={this.membersChange}>
+                  onChange={this.memberChanged}
 
-                  <label><Checkbox value="user_1" /> Van A</label>
-                  <label><Checkbox value="user_2" /> John</label>
-                  <label><Checkbox value="user_3" /> Trump</label>
-                  <label><Checkbox value="user_4" /> Irzon man</label>
+                  >
+
+                  <label><Checkbox value="user_1" /> Phó Văn Nghĩa</label>
+                  <label><Checkbox value="user_2" /> Nguyễn Tiến Minh Tuấn</label>
+                  <label><Checkbox value="user_3" /> Đặng Trung Hiếu</label>
+                  <label><Checkbox value="user_4" /> Trương Tấn Khải</label>
                 </CheckboxGroup>
 
                 <br /><br />
@@ -148,7 +154,9 @@ class Modal extends Component {
                   checkboxDepth={2} // This is needed to optimize the checkbox group
                   name="labelArr"
                   value={this.state.labelArr}
-                  onChange={this.labelsChange}>
+                  onChange={this.labelChanged}
+                  
+                > 
 
                   <label><Checkbox value="Frontend" /> Frontend</label>
                   <label><Checkbox value="Backend" /> Backend</label>
@@ -159,10 +167,7 @@ class Modal extends Component {
               {/* Modal footer */}
 
               <div className="modal-footer">
-                <button 
-                  // type="submit" 
-                  className={`btn btn-outline-${isAddNewTask ? 'success' : 'warning'}`}
-                >{isAddNewTask ? 'Thêm task' : 'Sửa task'}</button>
+              <button type="submit" className="btn btn-success" >{this.props.convertTitle ? 'Thêm task' : 'Sửa task'}</button>
                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -173,4 +178,26 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+const mapStateToProps = (state) => {
+  return {
+    editTask: state.editTask,
+    convertTitle: state.convertTitle
+  }
+
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTask: (newTask) =>{
+      dispatch(actions.addTask(newTask))
+    },
+    updateTask: (task) => {
+      dispatch(actions.updateTask(task))
+    }
+    
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

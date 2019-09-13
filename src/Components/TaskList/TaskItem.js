@@ -1,37 +1,52 @@
 import React, { Component } from 'react';
-
+import {connect} from 'react-redux'
+import * as actions from '../../Actions/index'
 class TaskItem extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedProgress: ''
+        }
+    }
+    
+    handleOnEdit = () => {
+        this.props.editTask(this.props.task);
+        this.props.convertTitleEdit()
+    }
     getLabelColor = (label) => {
-        switch (label) {
-            case "Frontend":
-                return "#389E0D"
-            case "Backend":
-                return "#722ED1"
-            case "API":
-                return "#13C2C2"
-            case "Issue":
-                return "#CF1322"
+        let labelColor;
+        switch(label) {
+            case 'Frontend':
+                return labelColor = '#389E0D'
+            case 'Backend':
+                return labelColor = '#722ED1'
+            case 'API':
+                return labelColor = '#13C2C2'
+            case 'Database':
+                return labelColor = '#CF1322'
             default:
-                return ""
+
+            break;
         }
+        return labelColor;
     }
 
-    getPriority = (number) => {
-        switch (parseInt(number, 10) ) {
+    getPriority = (priority) => {
+        switch(parseInt(priority, 10)) {
             case 1:
-                return 'Cao'
+                return 'Cao';
             case 2:
-                return 'Trung bình'
+                return 'Trung bình';
             case 3:
-                return 'Thấp'
+                return 'Thấp';
             default:
-                return null;
+            return '';
         }
+
     }
 
-    getPriorityClass = (number) => {
-        switch (parseInt(number, 10) ) {
+    getPriorityClass = (priority) => {
+        switch(parseInt(priority, 10)) {
             case 1:
                 return 'text-danger'
             case 2:
@@ -41,10 +56,11 @@ class TaskItem extends Component {
             default:
                 return '';
         }
-    }
 
-    getProgressIcon = (number) => {
-        switch (number) {
+    }
+    
+    getProgressIcon = (status) => {
+        switch (parseInt(status, 10)) {
             case 1:
                 return "fa-hourglass-start"
             case 2:
@@ -59,62 +75,69 @@ class TaskItem extends Component {
         }
     }
 
+
+    onChange = (event) => {
+        this.setState({
+            [event.target.name] : event.target.value,
+        }, () =>{
+            this.props.changeStatus(this.props.task.id, this.state.selectedProgress)
+        })
+        
+    }
+
+    handleDelete = () => {
+        this.props.deleteTask(this.props.task);
+        console.log(this.props)
+    }
+
+
     render() {
-        // const index = this.props.index;
-        // const item = this.props.item;
-
-        // destructuring trong ES6
-        const {index, item} = this.props
-
-        // render label
-        const labelElm = item.labelArr.map((label, index) => {
-            return <i 
-                key={index}
-                className="fa fa-circle" 
-                style={{ color: this.getLabelColor(label) }} 
+       const {index,task} = this.props
+      
+        let elmLabel = task.labelArr.map((label, index) => {
+            return <i
+            className="fa fa-circle"
+            style={{color: this.getLabelColor(label)}}
+            key={index}
             />
         })
 
-        // render users
-        const userElm = item.memberIDArr.map((member, index) => {
+        const userElm = task.memberIDArr.map((member, index) => {
             return <img
                 key={index}
                 src={`./img/${member}.jpg`} 
                 className="user" alt="user" 
             />
         })
-
+        
         return (
             <tr>
                 <td className="text-center">
-                    {index + 1}
+                {index + 1}
                 </td>
                 <td className="text-center">
-                    {item.name}
+                {task.name}
                 </td>
                 <td className="text-center">
-                    {labelElm}
+                {elmLabel}
                 </td>
-                <td className={`${this.getPriorityClass(item.priority)} font-weight-bold text-center`}>
-                    {this.getPriority(item.priority)}
+                <td className={`${this.getPriorityClass(task.priority)} font-weight-bold text-center`}>
+                {this.getPriority(task.priority)}
                 </td>
                 <td className="text-center">
-                    {userElm}
+                {userElm}
                 </td>
                 <td className="text-center d-flex">
                     <button 
                         type="button" 
                         className="btn btn-outline-primary"
-                        onClick={() => {
-                            this.props.getTask(item);
-                            this.props.convertAddToEdit()
-                        }}
                         data-toggle="modal"
                         data-target="#modalTask"
+                        onClick={this.handleOnEdit}
                     >Sửa</button>
 
                     <div className="form-group mx-2 my-0">
-                      <select className="form-control" name="" id="">
+                      <select className="form-control" name="selectedProgress" id="" onChange={this.onChange}>
                         <option value={-1}>Chọn tình trạng</option>
                         <option value={1}>Bắt đầu</option>
                         <option value={2}>Tạm ngưng</option>
@@ -124,11 +147,39 @@ class TaskItem extends Component {
                     </div>                    
                 </td>
                 <td className="text-center">
-                    <i className={`fa ${this.getProgressIcon(item.status)}  mr-2`} />
+
+                <i className={`fa ${this.getProgressIcon(task.status)}  mr-2`} />
+                </td>
+                <td className="text-center">
+
+                <button 
+                        type="button" 
+                        className="btn btn-outline-primary"
+                        onClick={this.handleDelete}
+                    >Xóa</button>
                 </td>
             </tr>
         );
     }
 }
 
-export default TaskItem;
+
+function mapDispatchToProps(dispatch) {
+    return {
+        editTask: (taskEdit) => {
+            dispatch(actions.editTask(taskEdit))
+        },
+        convertTitleEdit: () => {
+              dispatch(actions.convertTitleEdit())
+        },
+        changeStatus: (id,status) => {
+            dispatch(actions.changeStatus(id,status))
+        },
+        deleteTask: (task) => {
+            dispatch(actions.deleteTask(task))
+        }   
+    }
+
+}
+
+export default connect(null,mapDispatchToProps)(TaskItem);
