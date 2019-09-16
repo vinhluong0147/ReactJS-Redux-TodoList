@@ -13,7 +13,7 @@ let reducer = (state = initialState, action) => {
             filterType: action.filterType,
             filterValue: action.filterValue
         }
-         return state
+         return {...state}
 
         default:
         break;

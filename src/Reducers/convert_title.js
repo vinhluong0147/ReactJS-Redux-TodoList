@@ -6,11 +6,11 @@ let reducer = (state = initialState, action) => {
     switch(action.type){
         case types.CONVERT_TITLE_ADD:
         state = true
-        return state
+        return {...state}
 
         case types.CONVERT_TITLE_EDIT:
         state = false
-        return state
+        return {...state}
 
         default:
         break;

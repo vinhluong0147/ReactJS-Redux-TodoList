@@ -10,7 +10,7 @@ let reducer = (state = initialState, action) => {
     let tasksItem = JSON.parse(localStorage.getItem('tasks'))
     switch(action.type){
         case types.LIST_ALL:
-        return state;
+        return {...state};
 
         case types.INITIALIZE_TASK:
         localStorage.setItem('tasks',JSON.stringify(listOfTask.list))
@@ -21,7 +21,7 @@ let reducer = (state = initialState, action) => {
         tasksItem = [...tasksItem,action.newTask];
         state = tasksItem
         localStorage.setItem('tasks',JSON.stringify(tasksItem))
-        return state;
+        return {...state};
 
         case types.UPDATE_TASK:
         for(let index in tasksItem){
@@ -32,7 +32,7 @@ let reducer = (state = initialState, action) => {
                 break;
             }
         }
-        return state
+        return {...state}
 
         case types.DELETE_TASK:
         console.log(action)
@@ -44,7 +44,7 @@ let reducer = (state = initialState, action) => {
                 break;
             }
         }
-        return state
+        return {...state}
 
 
         case types.CHANGE_STATUS:
@@ -57,7 +57,7 @@ let reducer = (state = initialState, action) => {
                 break;
             }
         }
-        return state
+        return {...state}
 
         default:
         break;
