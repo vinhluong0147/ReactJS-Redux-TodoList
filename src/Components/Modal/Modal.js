@@ -65,16 +65,7 @@ class Modal extends Component {
     
   }
 
-  clearForm = () => {
-    this.setState({
-      id: '',
-      name: '',
-      description: '',
-      priority: '',
-      memberIDArr: [],
-      labelArr: []
-    })
-  }
+
   render() {
 
     return (

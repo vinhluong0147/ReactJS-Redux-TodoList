@@ -14,19 +14,19 @@ let reducer = (state = initialState, action) => {
     switch(action.type){
         case types.EDIT_TASK:
         state = action.taskEdit;
-        return {...state}
+        return state
 
         case types.CLEAR_FORM:
         state = {
             id: '',
             name: '',
             description: '',
-            priority: null,
+            priority: '',
             memberIDArr: [],
             labelArr: [],
-            status: null
+            status: ''
         }
-        return {...state}
+        return state
 
         default:
         break;
