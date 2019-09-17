@@ -8,30 +8,87 @@ class TaskList extends Component {
 
   
     render() {
-      let {tasks} = this.props
-      let filterTask = [];
-        switch(this.props.filter.filterType){
+      let {tasks,filter} = this.props
+      let filterTasks = [];
+        switch(filter.filterType){
           case 'status':
-          if(parseInt(this.props.filter.filterValue, 10) === -1){
-            filterTask = tasks
+          if(parseInt(filter.filterValue, 10) === -1){
+            filterTasks = tasks
           }else{
             for(let task of tasks){
-              if(task.status === parseInt(this.props.filter.filterValue, 10)){
-                filterTask = [...filterTask, task]
+              if(task.status === parseInt(filter.filterValue, 10)){
+                filterTasks = [...filterTasks, task]
               }
             } 
           }
-
           break;
 
+
+          case 'label':
+          if(filter.filterValue === 'Tất cả'){
+            filterTasks = tasks
+          }else{
+            for(let task of tasks){
+              if(task.labelArr.includes(filter.filterValue)){
+                filterTasks = [...filterTasks, task];
+              }
+            }
+          }
+          break;
+
+
+          case 'priority':
+          if(parseInt(filter.filterValue, 10) === -1){
+            filterTasks = tasks
+          }else{
+            for(let task of tasks){
+              if(task.priority === parseInt(filter.filterValue, 10)){
+                filterTasks = [...filterTasks, task]
+              }
+            } 
+          }
+          break;
+
+
+          case 'sort':
+          filterTasks = tasks
+          if(filter.filterValue === 'asc'){
+            filterTasks.sort((a,b) => {
+              let x = a.name.toLowerCase();
+              let y = b.name.toLowerCase()
+              if(x<y) {return -1;}
+              if(x>y) {return 1;}
+              return 0
+            })
+          }
+          if(filter.filterValue === 'desc'){
+            filterTasks.sort((a,b) => {
+              let x = a.name.toLowerCase();
+              let y = b.name.toLowerCase()
+              if(x>y) {return -1;}
+              if(x<y) {return 1;}
+              return 0
+            })
+          }
+          break;
+
+
+          case 'search':
+            filterTasks = tasks.filter((task) => {
+            return task.name.toLowerCase().indexOf(filter.filterValue.toLowerCase()) !== -1;
+          })
+          break;
+
+          
           case '':
-          filterTask = tasks
+          filterTasks = tasks
           break;
+
           default:
           break;
          
       }
-      let elmItem = filterTask.map((task, index) => {
+      let elmItem = filterTasks.map((task, index) => {
         return <TaskItem 
         key={index} 
         task={task} 
