@@ -16,7 +16,7 @@ class TaskList extends Component {
             filterTasks = tasks
           }else{
             for(let task of tasks){
-              if(task.status === parseInt(filter.filterValue, 10)){
+              if(parseInt(task.status,10) === filter.filterValue){
                 filterTasks = [...filterTasks, task]
               }
             } 
