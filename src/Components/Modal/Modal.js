@@ -132,10 +132,10 @@ class Modal extends Component {
 
                   >
 
-                  <label><Checkbox value="user_1" /> Phó Văn Nghĩa</label>
-                  <label><Checkbox value="user_2" /> Nguyễn Tiến Minh Tuấn</label>
-                  <label><Checkbox value="user_3" /> Đặng Trung Hiếu</label>
-                  <label><Checkbox value="user_4" /> Trương Tấn Khải</label>
+                  <label><Checkbox value="user_1" /> Nghĩa</label>
+                  <label><Checkbox value="user_2" /> Tuấn</label>
+                  <label><Checkbox value="user_3" /> Hiếu</label>
+                  <label><Checkbox value="user_4" /> Khải</label>
                 </CheckboxGroup>
 
                 <br /><br />
