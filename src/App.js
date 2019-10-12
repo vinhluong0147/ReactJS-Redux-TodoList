@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-
 // import component
 import Controls from './Components/Controls/Controls';
 import TaskList from './Components/TaskList/TaskList';
@@ -14,8 +13,6 @@ class App extends Component {
       tasks: [],
     }
   }
-
-
 
 
  

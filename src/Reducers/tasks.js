@@ -1,12 +1,13 @@
 import * as types from '../Constants/actionType';
 import listOfTask from '../Model/getData';
 
-let tasksItem = JSON.parse(localStorage.getItem('tasks'))
-let initialState = tasksItem ? tasksItem : []
+let tasks = localStorage.setItem('tasks',JSON.stringify(listOfTask.list))
+let tasksItem = JSON.parse(localStorage.getItem('tasks')) 
+let initialState = tasksItem ? tasksItem : tasks
     
 
-
 let reducer = (state = initialState, action) => {
+    
     let tasksItem = JSON.parse(localStorage.getItem('tasks'))
     switch(action.type){
         case types.LIST_ALL:
@@ -16,6 +17,7 @@ let reducer = (state = initialState, action) => {
         localStorage.setItem('tasks',JSON.stringify(listOfTask.list))
         window.location.reload()
         break;
+
 
         case types.ADD_TASK:
         tasksItem = [...tasksItem,action.newTask];
@@ -37,7 +39,7 @@ let reducer = (state = initialState, action) => {
         case types.DELETE_TASK:
         console.log(action)
         for(let index in tasksItem){
-            if(tasksItem[index].name === action.task.name){
+            if(tasksItem[index].id === action.task.id){
                 tasksItem.splice(index, 1)
                 localStorage.setItem('tasks',JSON.stringify(tasksItem))
                 state = tasksItem;
